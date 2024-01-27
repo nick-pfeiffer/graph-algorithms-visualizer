@@ -5,9 +5,9 @@ body {
 }
 
 .adj-input {
-	width: 100px;
+	/* width: 100px;
 	height: 100px;
-	padding: 0;
+	padding: 0; */
 	margin-top: -20px;
 }
 
@@ -41,17 +41,10 @@ canvas {
 	padding-top: 10px;
 	display: flex;
 	justify-content: space-around;
+	flex-wrap: wrap;
+	/* padding-left: 30px;
+	padding-right: 30px; */
 	/* background-color: #d9d9d9; */
-}
-
-.input-section {
-	/* padding-left: 150px; */
-	/* box-sizing: border-box; */
-}
-
-.visual-section {
-	/* margin-left: auto; */
-	/* padding-right: 150px; */
 }
 
 .adj-label,
@@ -79,14 +72,10 @@ canvas {
 	cursor: pointer;
 }
 
-.input-section {
-	/* height: 400px; */
-}
-
 .adj-input {
 	box-sizing: border-box;
 	width: 300px;
-	height: 403px;
+	height: 100%;
 	border: 2px solid black;
 	padding: 10px;
 	font-size: 20px;
@@ -99,13 +88,13 @@ canvas {
 
 .custom-body {
 	width: 300px;
-	height: 400px;
+	height: 100%;
 	border: 2px solid black;
 }
 
 .buttons {
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 5vh;
 }
 
 .custom-setting-box,
@@ -121,14 +110,6 @@ canvas {
 	margin-left: auto;
 }
 
-.force-mode-box {
-}
-
-.force-mode-box span {
-	/* padding-right: 40px; */
-}
-
-/* The switch - the box around the slider */
 .switch {
 	font-size: 12px;
 	position: relative;
@@ -137,14 +118,12 @@ canvas {
 	height: 2em;
 }
 
-/* Hide default HTML checkbox */
 .switch input {
 	opacity: 0;
 	width: 0;
 	height: 0;
 }
 
-/* The slider */
 .slider {
 	position: absolute;
 	cursor: pointer;
@@ -193,4 +172,78 @@ canvas {
 	resize: none;
 	outline: none;
 	margin-left: auto;
+}
+
+.input-section,
+.visual-section,
+.custom-section {
+	box-sizing: border-box;
+	padding: 10px;
+	flex-grow: 1; /* Let the sections grow and take equal space */
+}
+
+.input-body {
+	height: 100%;
+}
+
+.adj-form {
+	height: 100%;
+}
+
+.canvas {
+	width: 100%;
+	height: 100%;
+}
+
+.input-section {
+	/* height: 400px; */
+	height: 70vh;
+	width: 30%;
+	padding-left: 0px;
+	padding-right: 30px;
+	margin-bottom: 30px;
+}
+
+.visual-section {
+	width: 40%;
+	/* height: 400px; */
+	height: 70vh;
+	padding-right: 30px;
+	margin-bottom: 30px;
+}
+
+.custom-section {
+	/* height: 400px; */
+	height: 70vh;
+	width: 30%;
+	padding-right: 30px;
+	min-width: 300px;
+	margin-bottom: 30px;
+	/* padding-left: 30px; */
+}
+
+.main {
+	padding-left: 30px;
+}
+
+.adj-input {
+	width: 100%;
+}
+
+.custom-body {
+	width: 100%;
+}
+
+@media (max-width: 768px) {
+	.input-section,
+	.visual-section,
+	.custom-section {
+		padding-left: 30px;
+		padding-right: 30px;
+		min-width: 100%;
+	}
+
+	.main {
+		padding-left: 0;
+	}
 }

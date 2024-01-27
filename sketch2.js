@@ -1,5 +1,5 @@
-const WIDTH = 400;
-const HEIGHT = 400;
+let WIDTH;
+let HEIGHT;
 const RAD = 45;
 const FORCE_CONSTANT = 5000;
 const PADDING = 0;
@@ -71,11 +71,34 @@ function preload() {
 }
 
 function setup() {
-	var container = createDiv();
-	container.class("canvas-container"); // Optional: Add a class to the container for styling
+	var canvasContainer = document.querySelector(".canvas");
 
-	var myCanvas = createCanvas(WIDTH, HEIGHT);
-	myCanvas.parent(document.querySelector(".canvas"));
+	var canvasWidth = canvasContainer.clientWidth;
+	var canvasHeight = canvasContainer.clientHeight;
+
+	WIDTH = canvasWidth;
+	HEIGHT = canvasHeight;
+
+	console.log(WIDTH, HEIGHT);
+
+	var myCanvas = createCanvas(canvasWidth, canvasHeight);
+
+	myCanvas.parent(canvasContainer);
+
+	document.querySelector(".adj-input").innerHTML = startingEdges;
+	processInput(document.querySelector(".adj-input").value);
+}
+
+function windowResized() {
+	var canvasContainer = document.querySelector(".canvas");
+
+	var canvasWidth = canvasContainer.clientWidth;
+	var canvasHeight = canvasContainer.clientHeight;
+
+	WIDTH = canvasWidth;
+	HEIGHT = canvasHeight;
+
+	resizeCanvas(WIDTH, HEIGHT);
 }
 
 function draw() {
@@ -296,8 +319,8 @@ window.onload = () => {
 		processInput(document.querySelector(".adj-input").value);
 	});
 
-	document.querySelector(".adj-input").innerHTML = startingEdges;
-	processInput(document.querySelector(".adj-input").value);
+	// document.querySelector(".adj-input").innerHTML = startingEdges;
+	// processInput(document.querySelector(".adj-input").value);
 	// console.log(nodeMap);
 };
 
