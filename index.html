@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+		<script src="InputProcess3.js"></script>
+		<script src="node.js"></script>
+		<script src="link.js"></script>
+		<script src="dfs.js"></script>
+		<script src="bfs.js"></script>
+		<script src="astar.js"></script>
+		<script src="dijkstra2.js"></script>
+		<script src="sketch2.js"></script>
+		<link rel="stylesheet" href="styles.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=PT+Sans&family=Roboto:wght@300;400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<title>Graph Algorithms</title>
+	</head>
+	<body>
+		<div class="nav">
+			<h2>Graph Algorithms Visualizer</h2>
+		</div>
+		<div class="buttons">
+			<button class="dfs">Run DFS</button>
+			<button class="bfs">Run BFS</button>
+			<button class="dijkstras">Run Dijkstra's</button>
+			<button class="astar">Run A*</button>
+		</div>
+		<div class="main">
+			<div class="input-section">
+				<div class="adj-label">Edge List</div>
+				<div class="input-body">
+					<form class="adj-form">
+						<br />
+						<textarea
+							class="adj-input"
+							rows="15"
+							cols="40"
+						></textarea>
+					</form>
+				</div>
+			</div>
+
+			<div class="visual-section">
+				<div class="visualizer-title">Visualizer</div>
+				<div class="canvas"></div>
+			</div>
+
+			<div class="custom-section">
+				<div class="custom-title">Custom Settings</div>
+				<div class="custom-body">
+					<div class="custom-setting-box force-mode-box">
+						<span>Force Mode</span>
+						<label class="switch">
+							<input
+								class="force-switch"
+								type="checkbox"
+								checked="true"
+							/>
+							<span class="slider"></span>
+						</label>
+					</div>
+					<div class="custom-setting-box weighted-edges-box">
+						<span>Weighted Edges</span>
+						<label class="switch">
+							<input class="weight-switch" type="checkbox" />
+							<span class="slider"></span>
+						</label>
+					</div>
+					<div class="custom-setting-box 1-index-box">
+						<span>1-Indexed</span>
+						<label class="switch">
+							<input class="index-switch" type="checkbox" />
+							<span class="slider"></span>
+						</label>
+					</div>
+					<div class="custom-setting-box">
+						<span class="starting-index">Starting Node</span>
+						<input
+							type="text"
+							class="starting-index-input"
+							wrap="off"
+						/>
+					</div>
+					<div class="custom-setting-box">
+						<span class="starting-index">Goal Node</span>
+						<input
+							type="text"
+							class="goal-index-input"
+							wrap="off"
+						/>
+					</div>
+					<div class="speed-box">
+						<span class="speed">Animation Speed</span>
+						<input type="text" class="speed-input" wrap="off" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
