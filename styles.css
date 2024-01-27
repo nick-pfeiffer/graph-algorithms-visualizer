@@ -233,6 +233,10 @@ canvas {
 .custom-body {
 	width: 100%;
 }
+/* 
+.canvas {
+	touch-action: none;
+} */
 
 @media (max-width: 768px) {
 	.input-section,

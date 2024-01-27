@@ -113,6 +113,15 @@ function draw() {
 		textFont("Helvetica");
 		displayingError = false;
 	}
+	if (draggingId == -1) {
+		console.log("if");
+		enableScrolling();
+		// document.querySelector(".canvas").style.touchAction = "auto";
+	} else {
+		console.log("else");
+		disableScrolling();
+		// document.querySelector(".canvas").style.touchAction = "none";
+	}
 
 	if (mode == 0) {
 		if (FORCE_MODE) {
@@ -128,6 +137,8 @@ function draw() {
 		background("white");
 		nodeMap.forEach((node, id) => {
 			if (draggingId == node.id) {
+				// document.querySelector(".canvas").style.touchAction = "none";
+
 				document.body.style.userSelect = "none";
 				let newX = constrain(
 					mouseX,
@@ -447,4 +458,16 @@ function displayError() {
 	stroke(10);
 	text(errorMsg, WIDTH / 2, 15);
 	textAlign(CENTER, CENTER);
+}
+
+function disableScrolling() {
+	var x = window.scrollX;
+	var y = window.scrollY;
+	window.onscroll = function () {
+		window.scrollTo(x, y);
+	};
+}
+
+function enableScrolling() {
+	window.onscroll = function () {};
 }
