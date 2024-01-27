@@ -1,5 +1,6 @@
-let WIDTH;
-let HEIGHT;
+let WIDTH = 200;
+let HEIGHT = 200;
+// let myCanvas = createCanvas(WIDTH, HEIGHT);
 const RAD = 45;
 const FORCE_CONSTANT = 5000;
 const PADDING = 0;
@@ -65,44 +66,57 @@ var mode = 0;
 
 let displayingError = false;
 
+let windowLoaded = false;
+let setupFinished = false;
+
 let courierFont;
 function preload() {
 	courierFont = loadFont("/assets/CourierPrime-Regular.ttf");
 }
 
 function setup() {
-	var canvasContainer = document.querySelector(".canvas");
-
-	var canvasWidth = canvasContainer.clientWidth;
-	var canvasHeight = canvasContainer.clientHeight;
-
-	WIDTH = canvasWidth;
-	HEIGHT = canvasHeight;
-
-	console.log(WIDTH, HEIGHT);
-
-	var myCanvas = createCanvas(canvasWidth, canvasHeight);
-
-	myCanvas.parent(canvasContainer);
-
-	document.querySelector(".adj-input").innerHTML = startingEdges;
-	processInput(document.querySelector(".adj-input").value);
+	// var myCanvas = createCanvas(WIDTH, HEIGHT);
+	// myCanvas.parent(document.querySelector(".canvas"));
+	// let canvasWidth = canvasContainer.clientWidth;
+	// let canvasHeight = canvasContainer.clientHeight;
+	// WIDTH = canvasWidth;
+	// HEIGHT = canvasHeight;
+	// console.log(myCanvas);
+	// ---
+	// resizeCanvas(WIDTH, HEIGHT);
+	setupFinished = true;
+	checkSetupAndRun();
 }
+// function windowResized() {
+// 	var canvasContainer = document.querySelector(".canvas");
 
-function windowResized() {
-	var canvasContainer = document.querySelector(".canvas");
+// 	var canvasWidth = canvasContainer.offsetWidth;
+// 	var canvasHeight = canvasContainer.offsetHeight;
 
-	var canvasWidth = canvasContainer.clientWidth;
-	var canvasHeight = canvasContainer.clientHeight;
+// 	WIDTH = canvasWidth;
+// 	HEIGHT = canvasHeight;
 
-	WIDTH = canvasWidth;
-	HEIGHT = canvasHeight;
+// 	resizeCanvas(WIDTH, HEIGHT);
+// }
+function checkSetupAndRun() {
+	console.log(windowLoaded, setupFinished);
+	if (windowLoaded && setupFinished) {
+		console.log("both finished");
+		// document.querySelector(".adj-input").innerHTML = startingEdges;
+		// processInput(document.querySelector(".adj-input").value);
 
-	resizeCanvas(WIDTH, HEIGHT);
+		let canvasContainer = document.querySelector(".canvas");
+		let curWidth = canvasContainer.offsetWidth;
+		let curHeight = canvasContainer.offsetHeight;
+		WIDTH = curWidth;
+		HEIGHT = curHeight;
+		console.log(WIDTH, HEIGHT);
+		let myCanvas = createCanvas(WIDTH, HEIGHT);
+		myCanvas.parent(canvasContainer);
+	}
 }
 
 function draw() {
-	// console.log("drawing");
 	if (errorMsg != "") {
 		if (displayingError) return;
 
@@ -113,15 +127,6 @@ function draw() {
 		// console.log(textFont());
 		textFont("Helvetica");
 		displayingError = false;
-	}
-	if (draggingId == -1) {
-		// console.log("if");
-		enableScrolling();
-		// document.querySelector(".canvas").style.touchAction = "auto";
-	} else {
-		// console.log("else");
-		disableScrolling();
-		// document.querySelector(".canvas").style.touchAction = "none";
 	}
 
 	if (mode == 0) {
@@ -138,8 +143,6 @@ function draw() {
 		background("white");
 		nodeMap.forEach((node, id) => {
 			if (draggingId == node.id) {
-				// document.querySelector(".canvas").style.touchAction = "none";
-
 				document.body.style.userSelect = "none";
 				let newX = constrain(
 					mouseX,
@@ -269,24 +272,6 @@ function mouseReleased() {
 	draggingId = -1;
 }
 
-function touchStarted() {
-	if (touches.length === 1) {
-		var touchX = touches[0].x;
-		var touchY = touches[0].y;
-
-		nodeMap.forEach((node, id) => {
-			if (dist(node.x, node.y, touchX, touchY) < RAD) {
-				draggingId = node.id;
-			}
-		});
-	}
-}
-
-function touchEnded() {
-	document.body.style.userSelect = "";
-	draggingId = -1;
-}
-
 window.onload = () => {
 	document.querySelector(".adj-input").addEventListener("input", () => {
 		processInput(document.querySelector(".adj-input").value);
@@ -349,8 +334,11 @@ window.onload = () => {
 		processInput(document.querySelector(".adj-input").value);
 	});
 
-	// document.querySelector(".adj-input").innerHTML = startingEdges;
-	// processInput(document.querySelector(".adj-input").value);
+	windowLoaded = true;
+	checkSetupAndRun();
+
+	document.querySelector(".adj-input").innerHTML = startingEdges;
+	processInput(document.querySelector(".adj-input").value);
 	// console.log(nodeMap);
 };
 
@@ -477,16 +465,4 @@ function displayError() {
 	stroke(10);
 	text(errorMsg, WIDTH / 2, 15);
 	textAlign(CENTER, CENTER);
-}
-
-function disableScrolling() {
-	var x = window.scrollX;
-	var y = window.scrollY;
-	window.onscroll = function () {
-		window.scrollTo(x, y);
-	};
-}
-
-function enableScrolling() {
-	window.onscroll = function () {};
 }

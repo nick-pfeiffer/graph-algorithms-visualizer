@@ -317,6 +317,10 @@ function getAvailable() {
 		if (second < RAD) continue;
 		if (second > HEIGHT - RAD) continue;
 
+		if (i > 1000) {
+			return [first, second];
+		}
+
 		nodeMap.forEach((node) => {
 			if (dist(first, second, node.x, node.y) <= RAD * 2) {
 				valid = false;
@@ -344,6 +348,10 @@ function getAvail(newNm) {
 		if (first > WIDTH - RAD) continue;
 		if (second < RAD) continue;
 		if (second > HEIGHT - RAD) continue;
+
+		if (i > 1000) {
+			return [first, second];
+		}
 
 		newNm.forEach((node, id) => {
 			if (dist(first, second, node.x, node.y) <= RAD * 2) {

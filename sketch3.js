@@ -6,87 +6,81 @@ const PADDING = 0;
 let WEIGHTED = false;
 let UNDIRECTED = true;
 const startingEdges = `1 3\n1 4\n2 3\n4 7\n3 5\n2 8\n3 6`;
-// const startingEdges = `1 3\n1 4`;
 let FORCE_MODE = true;
 let prevText = startingEdges;
 
 let startShortestPath = -1;
-
-// nodes is a ListOf Node
-let nodeMap = new Map();
-
-// links is a ListOf Link
-let links = [];
-
-// curLink is one of:
-//   - Empty Link, if we are not currently displaying DFS
-//   - NonEmpty Link, representing the current link that we are displaying (highlighted red)
-let curLink = new Link(new Node(), new Node());
-
-// dfsOrder is a ListOf Link
-// where each element represents a Link that goes from a source Node to a target Node
-let dfsOrder = [];
-
-let finalPath = [];
-let willDisplayShortest = false;
-
-// dI is an iterator used for traversing dfsOrder
+let nodeMap;
+let links;
+let curLink;
+let dfsOrder;
+let finalPath;
+let willDisplayShortest;
 let dI = 0;
-
-// draggingId is one of:
-// 	  - -1, if there is no node being dragged currently
-//    - Positive Number, representing the id of the node being dragged
 let draggingId = -1;
-
 let animTimer = 0;
-
-var tempX;
-var tempY;
+let tempX;
+let tempY;
 let SPEED = 1;
 const SHORTEST_PATH_SPEED_CHANGE = 1;
 let animationDone = true;
 let displayShortest = false;
-
 const STROKE_WEIGHT = 3;
-
 let startingNode = 1;
 let goalNode = -1;
-
-// adj is a ListOf (ListOf Node IDs)
-// representing an adjacency matrix that we use for DFS traversal
-let adj = [[]];
-
+let adj;
 let userInputtedStart = false;
 let userInputtedGoal = false;
-
-var errorMsg = "";
-
-var mode = 0;
-
+let errorMsg = "";
+let mode = 0;
 let displayingError = false;
-
 let courierFont;
+let windowLoaded = false;
+let setupFinished = false;
+
 function preload() {
 	courierFont = loadFont("/assets/CourierPrime-Regular.ttf");
 }
 
 function setup() {
-	var canvasContainer = document.querySelector(".canvas");
+	let canvasContainer = document.querySelector(".canvas");
 
-	var canvasWidth = canvasContainer.clientWidth;
-	var canvasHeight = canvasContainer.clientHeight;
+	let canvasWidth = canvasContainer.clientWidth;
+	let canvasHeight = canvasContainer.clientHeight;
 
 	WIDTH = canvasWidth;
 	HEIGHT = canvasHeight;
 
 	console.log(WIDTH, HEIGHT);
 
-	var myCanvas = createCanvas(canvasWidth, canvasHeight);
+	let myCanvas = createCanvas(canvasWidth, canvasHeight);
 
 	myCanvas.parent(canvasContainer);
 
-	document.querySelector(".adj-input").innerHTML = startingEdges;
-	processInput(document.querySelector(".adj-input").value);
+	// Initialize variables related to the sketch here
+	nodeMap = new Map();
+	links = [];
+	curLink = new Link(new Node(), new Node());
+	dfsOrder = [];
+	finalPath = [];
+	willDisplayShortest = false;
+	dI = 0;
+	draggingId = -1;
+	animTimer = 0;
+	tempX;
+	tempY;
+	SPEED = 1;
+	animationDone = true;
+	displayShortest = false;
+	adj = [[]];
+	userInputtedStart = false;
+	userInputtedGoal = false;
+	errorMsg = "";
+	mode = 0;
+	displayingError = false;
+
+	setupFinished = true;
+	checkSetupAndRun();
 }
 
 function windowResized() {
@@ -99,6 +93,14 @@ function windowResized() {
 	HEIGHT = canvasHeight;
 
 	resizeCanvas(WIDTH, HEIGHT);
+}
+
+function checkSetupAndRun() {
+	if (windowLoaded && setupFinished) {
+		console.log("both finished");
+		document.querySelector(".adj-input").innerHTML = startingEdges;
+		processInput(document.querySelector(".adj-input").value);
+	}
 }
 
 function draw() {
@@ -352,6 +354,9 @@ window.onload = () => {
 	// document.querySelector(".adj-input").innerHTML = startingEdges;
 	// processInput(document.querySelector(".adj-input").value);
 	// console.log(nodeMap);
+
+	windowLoaded = true;
+	checkSetupAndRun();
 };
 
 function setPlaceholders() {
