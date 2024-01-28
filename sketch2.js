@@ -100,6 +100,9 @@ function windowResized() {
 
 	resizeCanvas(WIDTH, HEIGHT);
 }
+function preventDefault(e) {
+	e.preventDefault();
+}
 
 function draw() {
 	// console.log("drawing");
@@ -116,11 +119,16 @@ function draw() {
 	}
 	if (draggingId == -1) {
 		// console.log("if");
-		enableScrolling();
+		// enableScrolling();
+		document.removeEventListener("touchmove", preventDefault);
+
 		// document.querySelector(".canvas").style.touchAction = "auto";
 	} else {
 		// console.log("else");
-		disableScrolling();
+		// disableScrolling();
+		document.addEventListener("touchmove", preventDefault, {
+			passive: false,
+		});
 		// document.querySelector(".canvas").style.touchAction = "none";
 	}
 
@@ -310,13 +318,17 @@ window.onload = () => {
 		mode = 1;
 	});
 	document.querySelector(".astar").addEventListener("click", () => {
-		setPlaceholders();
-		willDisplayShortest = true;
-		astar(startingNode, goalNode, nodeMap);
+		if (!WEIGHTED) {
+			error = "A* requires a weighted graph";
+		} else {
+			setPlaceholders();
+			willDisplayShortest = true;
+			astar(startingNode, goalNode, nodeMap);
 
-		// setTimeout(() => {
-		mode = 1;
-		// }, 2000);
+			// setTimeout(() => {
+			mode = 1;
+			// }, 2000);
+		}
 	});
 	document.querySelector(".speed-input").addEventListener("input", () => {
 		SPEED = Number(document.querySelector(".speed-input").value);
@@ -480,11 +492,12 @@ function displayError() {
 }
 
 function disableScrolling() {
-	var x = window.scrollX;
-	var y = window.scrollY;
-	window.onscroll = function () {
-		window.scrollTo(x, y);
-	};
+	// Get the current page scroll position
+	scrollTop = document.documentElement.scrollTop;
+	(scrollLeft = document.documentElement.scrollLeft),
+		(window.onscroll = function () {
+			window.scrollTo(scrollLeft, scrollTop);
+		});
 }
 
 function enableScrolling() {
