@@ -65,6 +65,8 @@ var mode = 0;
 
 let displayingError = false;
 
+let unweightedErrorDuration = 100;
+
 let courierFont;
 function preload() {
 	courierFont = loadFont("/assets/CourierPrime-Regular.ttf");
@@ -108,6 +110,18 @@ function draw() {
 	// console.log("drawing");
 	if (errorMsg != "") {
 		if (displayingError) return;
+
+		if (
+			errorMsg == "A* requires a weighted graph" ||
+			errorMsg == "Dijkstra's requires a weighted graph"
+		) {
+			if (unweightedErrorDuration == 0) {
+				errorMsg = "";
+				return;
+			} else {
+				unweightedErrorDuration--;
+			}
+		}
 
 		displayError();
 		displayingErorr = true;
@@ -311,15 +325,21 @@ window.onload = () => {
 		mode = 1;
 	});
 	document.querySelector(".dijkstras").addEventListener("click", () => {
-		setPlaceholders();
-		// dijkstra(1);
-		willDisplayShortest = true;
-		dijkstra(startingNode, goalNode);
-		mode = 1;
+		if (!WEIGHTED) {
+			errorMsg = "Dijkstra's requires a weighted graph";
+			unweightedErrorDuration = 200;
+		} else {
+			setPlaceholders();
+			// dijkstra(1);
+			willDisplayShortest = true;
+			dijkstra(startingNode, goalNode);
+			mode = 1;
+		}
 	});
 	document.querySelector(".astar").addEventListener("click", () => {
 		if (!WEIGHTED) {
-			error = "A* requires a weighted graph";
+			errorMsg = "A* requires a weighted graph";
+			unweightedErrorDuration = 200;
 		} else {
 			setPlaceholders();
 			willDisplayShortest = true;
