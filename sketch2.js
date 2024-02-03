@@ -112,8 +112,8 @@ function draw() {
 		if (displayingError) return;
 
 		if (
-			errorMsg == "A* requires a weighted graph" ||
-			errorMsg == "Dijkstra's requires a weighted graph"
+			errorMsg == "Requires a weighted graph" ||
+			errorMsg == "Requires a weighted graph"
 		) {
 			if (unweightedErrorDuration == 0) {
 				errorMsg = "";
@@ -326,7 +326,7 @@ window.onload = () => {
 	});
 	document.querySelector(".dijkstras").addEventListener("click", () => {
 		if (!WEIGHTED) {
-			errorMsg = "Dijkstra's requires a weighted graph";
+			errorMsg = "Requires a weighted graph";
 			unweightedErrorDuration = 200;
 		} else {
 			setPlaceholders();
@@ -338,7 +338,7 @@ window.onload = () => {
 	});
 	document.querySelector(".astar").addEventListener("click", () => {
 		if (!WEIGHTED) {
-			errorMsg = "A* requires a weighted graph";
+			errorMsg = "Requires a weighted graph";
 			unweightedErrorDuration = 200;
 		} else {
 			setPlaceholders();
